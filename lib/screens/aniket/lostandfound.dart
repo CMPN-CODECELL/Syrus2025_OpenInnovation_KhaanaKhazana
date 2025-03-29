@@ -52,14 +52,14 @@ class LostFoundScreen extends StatelessWidget {
           title: Text(
             'LOST AND FOUND',
             style: TextStyle(
-                color: Color(0xff3BBD81), fontWeight: FontWeight.bold),
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
          backgroundColor: Color(0xff021141),
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
           bottom: const TabBar(
-            indicatorColor: Colors.green,
-            labelColor: Colors.green,
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
             unselectedLabelColor: Colors.grey,
             tabs: [
               Tab(icon: Icon(Icons.home), text: "Home"),
@@ -102,8 +102,9 @@ class LostFoundScreen extends StatelessWidget {
 
   Widget _buildHomePage(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.transparent,
+           backgroundColor: Colors.redAccent,
           child: Icon(Icons.add,color: Colors.white,),
           onPressed: (){
         Navigator.of(context).push(MaterialPageRoute(builder: (context){
@@ -120,7 +121,7 @@ class LostFoundScreen extends StatelessWidget {
 
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Color(0xff021141),
+                color: Colors.red,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -140,8 +141,21 @@ class LostFoundScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Lost Items Section
-            const Text("Your lost items",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Padding inside the container
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.2), // Semi-transparent white
+                borderRadius: BorderRadius.circular(30), // Oval shape
+              ),
+              child: const Text(
+                "Your lost items",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             const SizedBox(height: 10),
 
             SizedBox(
@@ -221,7 +235,7 @@ class LostFoundScreen extends StatelessWidget {
                                     print('Get details of ${item['title']}');
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
+                                    backgroundColor: Colors.red,
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
@@ -249,8 +263,21 @@ class LostFoundScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Found Items Section
-            const Text("Your found items",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Padding inside the container
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.2), // Semi-transparent white
+                borderRadius: BorderRadius.circular(30), // Oval shape
+              ),
+              child: const Text(
+                "Your found items",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             const SizedBox(height: 10),
             SizedBox(
               height: 180, // Adjust the height of the sliding row
@@ -329,7 +356,7 @@ class LostFoundScreen extends StatelessWidget {
                                     print('Get details of ${item['title']}');
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
+                                    backgroundColor: Colors.red,
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),

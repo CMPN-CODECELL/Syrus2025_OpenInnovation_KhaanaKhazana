@@ -506,9 +506,9 @@ class _TripPageState extends State<TripPage> {
       "image": "https://m.media-amazon.com/images/I/61isPIHrHgL.SX679.jpg", // Optional image
     });
     fetchedLocations.add({
-      "name": "JOHTO GYM",
+      "name": "Stark Orphanage",
       "latLng": const LatLng(19.1274009,72.8299478), // Set your custom coordinates
-      "info": "JOHTO GYM",
+      "info": "Langar",
       "image": "https://vignette.wikia.nocookie.net/pokemon/images/2/29/Gym_Leader_file.png/revision/latest?cb=20180602212712", // Optional image
     });
 
@@ -537,7 +537,7 @@ class _TripPageState extends State<TripPage> {
       i++;
     }
     iconMap['Found samsung s23'] = customIcoi;
-    iconMap['JOHTO GYM'] = customIco;
+    iconMap['FREED FOOD SERVICE'] = customIco;
     locations=fetchedLocations;
     setState(() {
 

@@ -132,40 +132,40 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        home: HomeScreen(),
-        // home:
-        // StreamBuilder(
-        //   stream: FirebaseAuth.instance.authStateChanges(),
-        //   builder: (context, snapshot) {
-        //
-        //     if (snapshot.connectionState == ConnectionState.active) {
-        //       if (snapshot.hasData) {
-        //         final User? firebaseUser = snapshot.data;
-        //         if (firebaseUser != null) {
-        //
-        //             return HomeScreen();
-        //           }
-        //         }
-        //       } else if (snapshot.hasError) {
-        //         return Scaffold(
-        //           body: Center(
-        //             child: Text('${snapshot.error}'),
-        //           ),
-        //         );
-        //       }
-        //
-        //
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return Scaffold(
-        //         body: Center(
-        //           child: CircularProgressIndicator(),
-        //         ),
-        //       );
-        //     }
-        //
-        //     return SignUpScreen();
-        //   },
-        // )
+        // home: SignUpScreen(),
+        home:
+        StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                final User? firebaseUser = snapshot.data;
+                if (firebaseUser != null) {
+
+                    return HomeScreen();
+                  }
+                }
+              } else if (snapshot.hasError) {
+                return Scaffold(
+                  body: Center(
+                    child: Text('${snapshot.error}'),
+                  ),
+                );
+              }
+
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+
+            return SignUpScreen();
+          },
+        )
 
 
 
@@ -241,27 +241,29 @@ class _ComplaintsScreenState extends State<ComplaintsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Color(0xffF1F7E8),
+        backgroundColor: Color(0xff021141),
         title: Text(
           'Community Complaints',
           style:
-              TextStyle(color: Colors.green[900], fontWeight: FontWeight.bold),
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         bottom: TabBar(
-          indicatorColor: Color(0xff3BBD81),
+          indicatorColor: Colors.white,
           controller: _tabController,
           tabs: [
             Tab(
                 child: Text(
               'Emergency',
               style: TextStyle(
-                  color: Colors.green[900], fontWeight: FontWeight.bold),
+                  color: Colors.white, fontWeight: FontWeight.bold),
             )),
             Tab(
               child: Text('Regular',
                   style: TextStyle(
-                      color: Colors.green[900], fontWeight: FontWeight.bold)),
+                      color: Colors.white, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -279,7 +281,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen>
           // Main Content (Loading or TabBarView)
           (_isLoading)
               ? Center(
-                  child: CircularProgressIndicator(color: Colors.green[900]),
+                  child: CircularProgressIndicator(color: Colors.white),
                 )
               : TabBarView(
                   controller: _tabController,
@@ -293,7 +295,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen>
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green[900],
+        backgroundColor: Colors.red[900],
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AddComplaintScreen()),
@@ -406,9 +408,9 @@ class _ComplaintsListState extends State<ComplaintsList>
                             EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                         decoration: BoxDecoration(
                           color: _tabController.index == 0
-                              ? Colors.green[50]
+                              ? Colors.white
                               : Colors.transparent,
-                          border: Border.all(color: Colors.green, width: 3),
+                          border: Border.all(color: Colors.red.shade700, width: 3),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -424,9 +426,9 @@ class _ComplaintsListState extends State<ComplaintsList>
                             EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                         decoration: BoxDecoration(
                           color: _tabController.index == 1
-                              ? Colors.green[50]
+                              ? Colors.white
                               : Colors.transparent,
-                          border: Border.all(color: Colors.green, width: 2),
+                          border: Border.all(color: Colors.red.shade700, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -468,7 +470,7 @@ class _ComplaintsListState extends State<ComplaintsList>
                             itemBuilder: (context, index) =>
                                 ComplaintCard(doc: globalComplaints[index]),
                           )
-                        : Center(child: Text("No Global Complaints")),
+                        : Center(child: Text("No Global Complaints",style: TextStyle(color: Colors.white),)),
                   ],
                 ),
               ),
@@ -500,7 +502,7 @@ class LargeComplaintTile extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.green[50],
+          color: Color(0xfff73d3b),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -512,17 +514,18 @@ class LargeComplaintTile extends StatelessWidget {
               style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green[900]),
+                  color: Colors.white),
             ),
             SizedBox(height: 8),
 
             // Location Row
             Row(
               children: [
-                Icon(Icons.location_on, color: Colors.red[800], size: 18),
+                Icon(Icons.location_on, color: Colors.white, size: 18),
                 SizedBox(width: 6),
                 Expanded(
                     child: Text(doc['latitude'].toString(),
+                        style: TextStyle(color: Colors.white),
                         overflow: TextOverflow.ellipsis)),
               ],
             ),
@@ -561,11 +564,11 @@ class LargeComplaintTile extends StatelessWidget {
                       doc.id, true, upvotes > 20 ? "1" : "0"),
                   child: Row(
                     children: [
-                      Icon(Icons.thumb_up, color: Colors.green[900], size: 22),
+                      Icon(Icons.thumb_up, color: Colors.white, size: 22),
                       SizedBox(width: 4),
                       Text("$upvotes",
                           style: TextStyle(
-                              color: Colors.green[900],
+                              color: Colors.white,
                               fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -577,32 +580,40 @@ class LargeComplaintTile extends StatelessWidget {
                       doc.id, false, upvotes > 20 ? "1" : "0"),
                   child: Row(
                     children: [
-                      Icon(Icons.thumb_down, color: Colors.red, size: 22),
+                      Icon(Icons.thumb_down, color: Colors.white, size: 22),
                       SizedBox(width: 4),
                       Text("$downvotes",
                           style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold)),
+                              color: Colors.white, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
 
                 // Report Button
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      Icon(Icons.warning, color: Colors.redAccent, size: 22),
-                      SizedBox(width: 4),
-                      Text(
-                          (status != "0")
-                              ? "Verified"
-                              : upvotes > 20
-                                  ? "Verified"
-                                  : "Report",
-                          style: TextStyle(
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold)),
-                    ],
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20  ),
+                    color: Colors.white
+                  ),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Icon(Icons.warning, color: Colors.redAccent, size: 22),
+                        SizedBox(width: 4),
+                        Text(
+                            (status != "0")
+                                ? "Verified"
+                                : upvotes > 20
+                                    ? "Verified"
+                                    : "Report",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -641,7 +652,7 @@ class ComplaintCard extends StatelessWidget {
         elevation: 3,
         child: Container(
           decoration: BoxDecoration(
-            color: Color(0xffF1F7E8),
+            color: Colors.red,
             borderRadius: BorderRadius.circular(20),
           ),
           padding: EdgeInsets.all(12),
@@ -652,7 +663,7 @@ class ComplaintCard extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -662,7 +673,7 @@ class ComplaintCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF3A9F7A),
+                          color: Colors.white,
                         ),
                       ),
                       SizedBox(height: 6),
@@ -671,13 +682,13 @@ class ComplaintCard extends StatelessWidget {
                       Row(
                         children: [
                           Icon(Icons.location_on,
-                              color: Colors.green[900], size: 16),
+                              color: Colors.white, size: 16),
                           SizedBox(width: 4),
                           Expanded(
                             child: Text(
                               doc['latitude'].toString(),
                               style: TextStyle(
-                                  color: Color(0xFF3A9F7A), fontSize: 16),
+                                  color: Colors.white, fontSize: 16),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -688,16 +699,16 @@ class ComplaintCard extends StatelessWidget {
                       // Category Label
                       Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.2),
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           doc['category'],
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.green[900]),
+                              color: Colors.red),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -714,13 +725,13 @@ class ComplaintCard extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.2),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Row(
                                 children: [
                                   Icon(Icons.thumb_up,
-                                      color: Colors.green[900], size: 22),
+                                      color: Colors.red, size: 22),
                                   SizedBox(width: 6),
                                   Text(
                                     '$upvotes',
@@ -744,13 +755,13 @@ class ComplaintCard extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.2),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Row(
                                 children: [
                                   Icon(Icons.thumb_down,
-                                      color: Colors.redAccent, size: 22),
+                                      color: Colors.red, size: 22),
                                   SizedBox(width: 6),
                                   Text(
                                     '$downvotes',
@@ -791,7 +802,7 @@ class ComplaintCard extends StatelessWidget {
                             color: Colors.green,
                             value: loadingProgress.expectedTotalBytes != null
                                 ? loadingProgress.cumulativeBytesLoaded /
-                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                (loadingProgress.expectedTotalBytes ?? 1)
                                 : null,
                           ),
                         );
@@ -816,26 +827,26 @@ class ComplaintCard extends StatelessWidget {
                         print('Report tapped'), // Replace with actual function
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.2),
+                        color: Colors.white.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
                         children: [
                           Icon(Icons.warning,
-                              color: Colors.redAccent, size: 20),
+                              color: Colors.white, size: 20),
                           SizedBox(width: 6),
                           Text(
                             (status != "0")
                                 ? "Verified"
                                 : upvotes > 20
-                                    ? "Verified"
-                                    : "Report",
+                                ? "Verified"
+                                : "Report",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black38,
+                              color: Colors.red,
                             ),
                           ),
                         ],
