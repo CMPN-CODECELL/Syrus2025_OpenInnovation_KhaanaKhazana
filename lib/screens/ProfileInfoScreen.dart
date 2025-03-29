@@ -127,7 +127,7 @@ class _ProfileUploadPageState extends State<ProfileUploadPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           content: Text("Profile Uploaded Successfully!"),
-          backgroundColor: Colors.green),
+          backgroundColor: Colors.red),
     );
 
     Navigator.pushReplacementNamed(context, '/home');
@@ -139,7 +139,7 @@ class _ProfileUploadPageState extends State<ProfileUploadPage> {
       // Extend body behind app bar to show the full gradient background
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color(0xff021141),
         elevation: 0,
         title: Text(
           "Complete Your Profile",
@@ -150,7 +150,7 @@ class _ProfileUploadPageState extends State<ProfileUploadPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/back_1.png"),
+            image: AssetImage("assets/images/back.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -163,6 +163,7 @@ class _ProfileUploadPageState extends State<ProfileUploadPage> {
                   Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(color: Colors.red, width: 2), // Red border for the card
                     ),
                     elevation: 8,
                     shadowColor: Colors.black45,
@@ -178,193 +179,178 @@ class _ProfileUploadPageState extends State<ProfileUploadPage> {
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: Colors.red, // Changed to red
                               ),
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 20),
-                            // Display verified name if available
+
+                            // Verified Name
                             if (_verifiedName != null)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Name:",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                  Text("Name:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
                                   SizedBox(height: 5),
                                   Container(
                                     padding: EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[200],
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.red, width: 2), // Red border
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Text(
                                       _verifiedName!,
-                                      style: TextStyle(fontSize: 16),
+                                      style: TextStyle(fontSize: 16, color: Colors.red),
                                     ),
                                   ),
                                 ],
                               ),
                             SizedBox(height: 20),
-                            // Address Field
+
+                            // Address
                             if (_address != "")
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Address:",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                  Text("Address:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
                                   SizedBox(height: 5),
                                   Container(
                                     padding: EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[200],
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.red, width: 2), // Red border
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Text(
                                       _address,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
+                                      style: TextStyle(fontSize: 16, color: Colors.red),
                                     ),
                                   ),
                                 ],
                               ),
                             SizedBox(height: 20),
-                            // Display Date of Birth if available
+
+                            // Date of Birth
                             if (_age.isNotEmpty)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Date of Birth:",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                  Text("Date of Birth:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
                                   SizedBox(height: 5),
                                   Container(
                                     padding: EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[200],
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.red, width: 2), // Red border
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Text(
                                       _age,
-                                      style: TextStyle(fontSize: 16),
+                                      style: TextStyle(fontSize: 16, color: Colors.red),
                                     ),
                                   ),
                                 ],
                               ),
                             SizedBox(height: 20),
-                            // Gender Dropdown Field
+
+                            // Gender Dropdown
                             DropdownButtonFormField<String>(
                               focusColor: Colors.white,
                               value: _selectedGender,
                               items: ["Male", "Female", "Other"]
                                   .map((e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      ))
+                                value: e,
+                                child: Text(e, style: TextStyle(color: Colors.red)),
+                              ))
                                   .toList(),
-                              onChanged: (value) =>
-                                  setState(() => _selectedGender = value),
+                              onChanged: (value) => setState(() => _selectedGender = value),
                               decoration: InputDecoration(
                                 labelText: "Gender",
-                                prefixIcon: Icon(Icons.wc, color: Colors.black),
+                                labelStyle: TextStyle(color: Colors.red), // Red label
+                                prefixIcon: Icon(Icons.wc, color: Colors.red),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                      color: Colors.black), // Black border
+                                  borderSide: BorderSide(color: Colors.red, width: 2), // Red border
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                      color: Colors
-                                          .black), // Black border when not focused
+                                  borderSide: BorderSide(color: Colors.red, width: 2), // Red border when not focused
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                      color: Colors.black,
-                                      width:
-                                          2), // Thicker black border when focused
+                                  borderSide: BorderSide(color: Colors.red, width: 2), // Red border when focused
                                 ),
                               ),
-                              validator: (value) =>
-                                  value == null ? "Select Gender" : null,
+                              validator: (value) => value == null ? "Select Gender" : null,
                             ),
                             SizedBox(height: 20),
+
                             // Identity Proof Upload Button
                             (_verifiedName != null)
                                 ? ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context){return HomeScreen();}), (route)=>false);
-
-                                    },
-                                    child: const Text("Done",
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.black)),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 14),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  )
+                              onPressed: () {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) {
+                                      return HomeScreen();
+                                    }), (route) => false);
+                              },
+                              child: Text("Done", style: TextStyle(fontSize: 18, color: Colors.red)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white, // White button
+                                padding: EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(color: Colors.red, width: 2), // Red border
+                                ),
+                              ),
+                            )
                                 : Column(
-                                    children: [
-                                      ElevatedButton.icon(
-                                        onPressed: _pickIdentityProof,
-                                        icon: Icon(Icons.upload_file,
-                                            color: Colors.white),
-                                        label: Text(
-                                          _identityFile == null
-                                              ? "Upload ID Proof"
-                                              : "File Selected",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.green,
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 14),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20),
-                                      // Submit Profile Button
-                                      _isLoading
-                                          ? Center(
-                                              child: CircularProgressIndicator(
-                                                color: Colors.deepPurple,
-                                              ),
-                                            )
-                                          : ElevatedButton(
-                                              onPressed: _saveProfile,
-                                              child: Text("Submit Profile",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.black)),
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.green,
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 14),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                              ),
-                                            ),
-                                    ],
+                              children: [
+                                ElevatedButton.icon(
+                                  onPressed: _pickIdentityProof,
+                                  icon: Icon(Icons.upload_file, color: Colors.red),
+                                  label: Text(
+                                    _identityFile == null ? "Upload ID Proof" : "File Selected",
+                                    style: TextStyle(fontSize: 16, color: Colors.red),
                                   ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    padding: EdgeInsets.symmetric(vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      side: BorderSide(color: Colors.red, width: 2),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+
+                                // Submit Profile Button
+                                _isLoading
+                                    ? Center(
+                                  child: CircularProgressIndicator(color: Colors.red),
+                                )
+                                    : ElevatedButton(
+                                  onPressed: _saveProfile,
+                                  child: Text("Submit Profile", style: TextStyle(fontSize: 18, color: Colors.red)),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    padding: EdgeInsets.symmetric(vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      side: BorderSide(color: Colors.red, width: 2),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  ),
+                  )
+
                 ],
               ),
             ),

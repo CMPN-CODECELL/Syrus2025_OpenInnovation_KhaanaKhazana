@@ -501,7 +501,7 @@ class _TripPageState extends State<TripPage> {
     }
     fetchedLocations.add({
       "name": "Found samsung s23",
-      "latLng": const LatLng(19.1230738, 72.8290329), // Set your custom coordinates
+      "latLng": const LatLng(19.1053381,72.8157672), // Set your custom coordinates
       "info": "This is a manually added location.",
       "image": "https://m.media-amazon.com/images/I/61isPIHrHgL.SX679.jpg", // Optional image
     });
@@ -670,7 +670,7 @@ class _TripPageState extends State<TripPage> {
                   width: 120,
                   height: 80,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  placeholder: (context, url) => Center(child: CircularProgressIndicator(color: Colors.red,)),
                   errorWidget: (context, url, error) => Icon(Icons.broken_image, size: 80, color: Colors.grey),
                 ),
               ),

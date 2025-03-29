@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:iconsax/iconsax.dart';
 import 'package:pokemon_go/constants.dart';
+import 'package:pokemon_go/screens/groups/groups.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,8 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TripPage(),
     ComplaintsScreen(),
     LostFoundScreen(),
-
-    TripPlannerPage(),
+    GroupListPage(),
     ProfileScreen(),
   ];
 
@@ -38,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index;
     });
   }
-
 
   bool isLoading = false;
   double homeLat = 0;
@@ -55,8 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isListening = false; // Track listening state
   String _spokenText = ''; // Hold recognized text
   final ScrollController _scrollController = ScrollController();
-  bool _loading=false;
-
+  bool _loading = false;
 
   Future<String> getBotResponse(String query) async {
     final response = await http.post(
@@ -73,32 +72,41 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
   Future<String> _getIntent(String userMessage) async {
     if (userMessage.toLowerCase().contains('1')) {
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(body: LostAndFoundPage())));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Scaffold(body: LostAndFoundPage())));
       return 'Routing you to the  page 1...';
     } else if (userMessage.toLowerCase().contains('2')) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(body:AddLostItemPage())));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Scaffold(body: AddLostItemPage())));
       return 'Routing you to the  page 2...';
     } else if (userMessage.toLowerCase().contains('3')) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(body:FoundHistoryPage())));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Scaffold(body: FoundHistoryPage())));
       return 'Routing you to the  page 3...';
-    } else if (userMessage.toLowerCase().contains('4') ) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(body:SubmitLostItemPage())));
+    } else if (userMessage.toLowerCase().contains('4')) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Scaffold(body: SubmitLostItemPage())));
       return "Routing you to the  page 3...";
-    }
-    else if (userMessage.toLowerCase().contains('bathroom') && userMessage.toLowerCase().contains('bedroom')) {
+    } else if (userMessage.toLowerCase().contains('bathroom') &&
+        userMessage.toLowerCase().contains('bedroom')) {
       _speak("From the bedroom, head down the hallway to reach the bathroom.");
       return "From the bedroom, head down the hallway to reach the bathroom.";
-    }
-    else if (userMessage.toLowerCase().contains('garage') && userMessage.toLowerCase().contains('living room')) {
-      _speak("From the living room, exit through the main door to reach the garage.");
+    } else if (userMessage.toLowerCase().contains('garage') &&
+        userMessage.toLowerCase().contains('living room')) {
+      _speak(
+          "From the living room, exit through the main door to reach the garage.");
       return "From the living room, exit through the main door to reach the garage.";
-    }
-    else if (userMessage.toLowerCase().contains('map')) {
-
+    } else if (userMessage.toLowerCase().contains('map')) {
       // Position position = await Geolocator.getCurrentPosition(
       //   desiredAccuracy: LocationAccuracy.best,
       // );
@@ -107,26 +115,20 @@ class _HomeScreenState extends State<HomeScreen> {
       // }));
       _speak("Don't Worry Follow the Map");
       return "Don't Worry Follow the Map";
-    }
-    else if (userMessage.toLowerCase().contains('rec')) {
+    } else if (userMessage.toLowerCase().contains('rec')) {
       setState(() {
-        _isChatVisible=false;
+        _isChatVisible = false;
       });
 
       //_speak("Don't Worry Follow the Map");
       return "Redirecting to Recognize Page";
-    }
-    else if (userMessage.toLowerCase().contains('rem')) {
-
-
+    } else if (userMessage.toLowerCase().contains('rem')) {
       // Navigator.push(context, MaterialPageRoute(builder: (context){
       //   return NotesScreen();
       // }));
       //_speak("Don't Worry Follow the Map");
       return "Redirecting to Todo Page";
-    }
-
-    else {
+    } else {
       return 'Sorry, this feature is not in the app.';
     }
   }
@@ -147,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _scrollToBottom();
     }
   }
+
   void _startListening() async {
     bool available = await _speech.initialize(
       onStatus: (status) => print('Speech status: $status'),
@@ -176,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollToBottom();
   }
 
-  void _scrollToBottom(){
+  void _scrollToBottom() {
     Future.delayed(Duration(milliseconds: 100), () {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -211,7 +214,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
   void _speak(String text) async {
     await flutterTts.setVolume(1.0);
     await flutterTts.setSpeechRate(0.5);
@@ -221,8 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await flutterTts.speak(text);
   }
 
-
-  bool _isDoneFirst=false;
+  bool _isDoneFirst = false;
   @override
   void initState() {
     super.initState();
@@ -233,19 +234,13 @@ class _HomeScreenState extends State<HomeScreen> {
     flutterTts.isLanguageAvailable("en-IN").then((available) {
       checkLanguageAvailability(available);
     });
-
-
   }
-
-
 
   @override
   void dispose() {
     _isMounted = false;
     super.dispose();
   }
-
-
 
   Widget _buildChatWindow() {
     return Material(
@@ -265,7 +260,8 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 50,
               decoration: BoxDecoration(
                 color: Color(0xFFF5ECFF),
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(10)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -274,7 +270,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.only(left: 16.0),
                     child: Text(
                       'Chatur',
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   ),
                   IconButton(
@@ -296,17 +293,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   final message = _messages[index];
                   final isUser = message.containsKey('user');
                   return Align(
-                    alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                    alignment:
+                        isUser ? Alignment.centerRight : Alignment.centerLeft,
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
                         color: isUser ? Color(0xFFF5ECFF) : Color(0xFFE197FF),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
                         isUser ? message['user']! : message['bot']!,
-                        style: TextStyle(color: isUser ? Colors.black : Colors.black),
+                        style: TextStyle(
+                            color: isUser ? Colors.black : Colors.black),
                       ),
                     ),
                   );
@@ -320,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      onTap: (){},
+                      onTap: () {},
                       controller: _controller,
                       decoration: const InputDecoration(
                         hintText: 'Ask about app features...',
@@ -349,48 +349,70 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.of(context).viewInsets.top-1000;
+    final bottomInset = MediaQuery.of(context).viewInsets.top - 1000;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red.shade800,
-          child: Icon(Iconsax.message,color: Colors.white,),
-          onPressed: (){
-        setState(() {
-          _isChatVisible = !_isChatVisible;
-        });
-      }),
-      backgroundColor: Colors.redAccent, // Scaffold background is green
-        body: Stack(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          mainAxisAlignment: (_selectedIndex==0)?MainAxisAlignment.spaceBetween:MainAxisAlignment.end,
           children: [
-            Positioned.fill(child: _screens[_selectedIndex]), // Ensures it fills the stack
-            if (_isChatVisible)
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 300),
-                bottom: bottomInset > 0 ? bottomInset + 10 : _chatBottomPosition,
-                right: 20,
-                child: Material(
-                  elevation: 8,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: 300,
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: _buildChatWindow(),
-                  ),
+            if(_selectedIndex==0)
+              GestureDetector(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        "assets/images/ash.png",
+                        width: 100,
+                        height: 100,
+                      ),
+                      Text("190",style: TextStyle(color: Colors.white),)
+                    ],
+                  )),
+            FloatingActionButton(
+                backgroundColor: Colors.red.shade800,
+                child: Icon(
+                  Iconsax.message,
+                  color: Colors.white,
                 ),
-              ),
+                onPressed: () {
+                  setState(() {
+                    _isChatVisible = !_isChatVisible;
+                  });
+                }),
           ],
         ),
-
-
+      ),
+      backgroundColor: Colors.redAccent, // Scaffold background is green
+      body: Stack(
+        children: [
+          Positioned.fill(
+              child: _screens[_selectedIndex]), // Ensures it fills the stack
+          if (_isChatVisible)
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              bottom: bottomInset > 0 ? bottomInset + 10 : _chatBottomPosition,
+              right: 20,
+              child: Material(
+                elevation: 8,
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: 300,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: _buildChatWindow(),
+                ),
+              ),
+            ),
+        ],
+      ),
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.red.shade800,
@@ -425,8 +447,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -476,102 +496,144 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green, // Green scaffold background
-      body: isLoading
-          ? Center(child: CircularProgressIndicator(color: Colors.white))
-          : SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-
-              SizedBox(height: 20),
-              // Verified name
-              Text(
-                verifiedName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Stack(
+        children: [
+          // Background Image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/back.jpg"), // Change this to your image path
+                fit: BoxFit.cover,
               ),
-              SizedBox(height: 10),
-              // Credits display
-              Text(
-                "Credits: $credits",
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(height: 30),
-              // Card with additional profile details
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                color: Colors.white,
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.email, color: Colors.green),
-                        title: Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(
-                          FirebaseAuth.instance.currentUser?.email ?? "No Email",
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                      ),
-                      Divider(),
-                      ListTile(
-                        leading: Icon(Icons.verified_user, color: Colors.green),
-                        title: Text("Verified Name", style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(
-                          verifiedName,
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                      ),
-                      Divider(),
-                      ListTile(
-                        leading: Icon(Icons.credit_card, color: Colors.green),
-                        title: Text("Credits", style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(
-                          "$credits",
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-              // Logout button
-              ElevatedButton(
-                onPressed: () async{
-
-                  await FirebaseAuth.instance.signOut();
-                  // Add your logout functionality here
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.green, backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14, horizontal: 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: Text(
-                  "Log Out",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+
+
+
+          // Main Content
+          isLoading
+              ? Center(child: CircularProgressIndicator(color: Colors.white))
+              : SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width:double.infinity,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.8), // Semi-transparent white background
+                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 20),
+                        // Verified name
+                        Text(
+                          verifiedName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white, // Change to black for better visibility
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        // Credits display
+                        Text(
+                          "Credits: $credits",
+                          style: TextStyle(
+                            color: Colors.white, // Slightly darker text
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                      ],
+                    ),
+                  ),
+
+                  // Card with additional profile details
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: Colors.red, width: 2), // Red border around the card
+                    ),
+                    color: Colors.white, // White background
+                    elevation: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.email, color: Colors.red),
+                            title: Text(
+                              "Email",
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                            ),
+                            subtitle: Text(
+                              FirebaseAuth.instance.currentUser?.email ?? "No Email",
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                          ),
+                          Divider(color: Colors.red), // Red divider
+                          ListTile(
+                            leading: Icon(Icons.verified_user, color: Colors.red),
+                            title: Text(
+                              "Verified Name",
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                            ),
+                            subtitle: Text(
+                              verifiedName,
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                          ),
+                          Divider(color: Colors.red),
+                          ListTile(
+                            leading: Icon(Icons.credit_card, color: Colors.red),
+                            title: Text(
+                              "Credits",
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                            ),
+                            subtitle: Text(
+                              "$credits",
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 30),
+                  // Logout button
+                  ElevatedButton(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      // Add your logout functionality here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.green,
+                      backgroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text(
+                      "Log Out",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.red),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
+
   }
 }

@@ -165,7 +165,7 @@ class _ClaimVerificationChatPageState extends State<ClaimVerificationChatPage> {
               const SizedBox(height: 16),
 
               // Item Title and Description
-              Text(widget.item["title"]!, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(widget.item["title"]!, style: const TextStyle(fontSize: 24,color: Colors.white, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               Text(widget.item["description"]!, style: const TextStyle(fontSize: 16, color: Colors.white)),
 
@@ -177,12 +177,18 @@ class _ClaimVerificationChatPageState extends State<ClaimVerificationChatPage> {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
-                    return ListTile(
-                      title: Text(
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                      ),
+                      child: Text(
                         "${message["sender"]}: ${message["text"]}",
                         style: TextStyle(
                           fontWeight: message["sender"] == "Admin" ? FontWeight.bold : FontWeight.normal,
-                          color: message["sender"] == "Admin" ? Colors.red : Colors.white,
+                          color: message["sender"] == "Admin" ? Colors.red : Colors.red,
                         ),
                       ),
                     );
@@ -197,10 +203,17 @@ class _ClaimVerificationChatPageState extends State<ClaimVerificationChatPage> {
                   children: [
                     Expanded(
                       child: TextField(
+                        style: TextStyle(color: Colors.white),
                         controller: messageController,
                         decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10)),
+                          hintStyle: TextStyle(color: Colors.white),
                           hintText: "Type your response...",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10)),
                         ),
                       ),
                     ),

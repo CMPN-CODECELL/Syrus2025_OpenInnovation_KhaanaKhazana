@@ -123,45 +123,83 @@ class _ClaimantListPageState extends State<ClaimantListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Claimants List'),
-        backgroundColor: Colors.green,
+        title: Text('Claimants List',style: TextStyle(color: Colors.white),),
+        backgroundColor: Color(0xff021141),
       ),
-      body: claimants.isEmpty
-          ? Center(child: Text("No claimants found."))
-          : ListView.builder(
-        itemCount: claimants.length,
-        itemBuilder: (context, index) {
-          final claimant = claimants[index];
-
-          return Card(
-            margin: EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text(claimant["name"]),
-              subtitle: Text("Verification Status: ${claimant["status"]}"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ClaimantDetailsPage(claimant: claimant),
-                  ),
-                );
-              },
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.check, color: Colors.green),
-                    onPressed: () => approveClaimant(index),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.close, color: Colors.red),
-                    onPressed: () => rejectClaimant(index),
-                  ),
-                ],
-              ),
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              "assets/images/back.jpg", // Change to your image path
+              fit: BoxFit.cover, // Ensures image covers the entire screen
             ),
-          );
-        },
+          ),
+
+          // Main content
+          claimants.isEmpty
+              ? Center(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8), // Semi-transparent background
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text("No claimants found.", style: TextStyle(fontSize: 18)),
+            ),
+          )
+              : ListView.builder(
+            itemCount: claimants.length,
+            itemBuilder: (context, index) {
+              final claimant = claimants[index];
+
+              return Card(
+                margin: EdgeInsets.all(8.0),
+                color: Colors.white.withOpacity(0.9), // Makes the card slightly transparent
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Keeps the inner box white
+                    border: Border.all(color: Colors.red, width: 2), // Red border
+                    borderRadius: BorderRadius.circular(12), // Rounded corners
+                  ),
+                   margin: EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text(
+                      claimant["name"],
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red), // Red text
+                    ),
+                    subtitle: Text(
+                      "Verification Status: ${claimant["status"]}",
+                      style: TextStyle(color: Colors.red), // Red subtitle text
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ClaimantDetailsPage(claimant: claimant),
+                        ),
+                      );
+                    },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.check, color: Colors.green),
+                          onPressed: () => approveClaimant(index),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.close, color: Colors.red),
+                          onPressed: () => rejectClaimant(index),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -192,7 +230,7 @@ class _ClaimantDetailsPageState extends State<ClaimantDetailsPage> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("${widget.claimant["name"]} has been approved!"), backgroundColor: Colors.green),
+      SnackBar(content: Text("${widget.claimant["name"]} has been approved!",style:TextStyle(color: Colors.white)), backgroundColor: Colors.red),
     );
 
     Navigator.pop(context);
@@ -215,7 +253,7 @@ class _ClaimantDetailsPageState extends State<ClaimantDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.claimant["name"]}\'s Answers'),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xff021141),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -242,7 +280,7 @@ class _ClaimantDetailsPageState extends State<ClaimantDetailsPage> {
                   onPressed: approveClaimant,
                   icon: Icon(Icons.check, color: Colors.white),
                   label: Text("Accept"),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                 ),
                 ElevatedButton.icon(
                   onPressed: rejectClaimant,

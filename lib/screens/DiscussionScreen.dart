@@ -130,7 +130,9 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
       create: (_) => PollProvider(),
       child: Scaffold(
 
-        appBar: AppBar(title: Text("Discussion Thread"),actions: [
+        appBar: AppBar(
+          backgroundColor: Color(0xff021141),
+          title: Text("Discussion Thread",style: TextStyle(color: Colors.white),),actions: [
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context){
               return CommunitySolutionsScreen();
@@ -140,7 +142,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/back_1.png"),
+              image: AssetImage("assets/images/back.jpg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -267,20 +269,23 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: TextField(
-                            controller: replyController,
-                            decoration: InputDecoration(
-                              labelText: "Reply...",
-                              labelStyle: TextStyle(color: Colors.white),  // Label text color
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),  // Bottom border color
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),  // Focused border color
-                              ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white, // Inner white color
+                              border: Border.all(color: Colors.red, width: 2), // Red border
+                              borderRadius: BorderRadius.circular(12), // Optional: Rounded corners
                             ),
-                            style: TextStyle(color: Colors.white),  // Text input color
-                            cursorColor: Colors.white,  // Cursor color
+                            padding: EdgeInsets.symmetric(horizontal: 10), // Padding inside the box
+                            child: TextField(
+                              controller: replyController,
+                              decoration: InputDecoration(
+                                hintText: "Reply...",
+                                hintStyle: TextStyle(color: Colors.red), // Placeholder text color
+                                border: InputBorder.none, // Removes default border
+                              ),
+                              style: TextStyle(color: Colors.red), // Input text color
+                              cursorColor: Colors.red, // Cursor color
+                            ),
                           ),
                         ),
                         IconButton(
@@ -348,7 +353,7 @@ class _ImageCardState extends State<ImageCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      //margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 8,
       child: Container(
@@ -377,6 +382,7 @@ class _ImageCardState extends State<ImageCard> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Colors.red
                 ),
               ),
             ),
@@ -406,12 +412,12 @@ class _ImageCardState extends State<ImageCard> {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.deepPurple.shade100,
+                      color: Colors.red,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       widget.doc['category'],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                     ),
                   ),
                 ],

@@ -179,10 +179,11 @@ void showTrafficNotification() {
     content: NotificationContent(
       id: 1,
       channelKey: 'traffic_alerts',
-      title: '🚦 Heavy Traffic Ahead!',
-      body: 'You are near a high-traffic area. Consider taking an alternate route.',
+      title: '🚦Pipe Burst near you!',
+      body: 'A pipe burst has been reported nearby, causing heavy traffic. Expect delays or consider an alternate route.',
       notificationLayout: NotificationLayout.Default,
-    ),
+    )
+
   );
 }
 
@@ -548,7 +549,7 @@ class LargeComplaintTile extends StatelessWidget {
                   loadingBuilder: (context, child, loadingProgress) =>
                       loadingProgress == null
                           ? child
-                          : Center(child: CircularProgressIndicator()),
+                          : Center(child: CircularProgressIndicator(color: Colors.red,)),
                 ),
               ),
             ),
@@ -600,7 +601,11 @@ class LargeComplaintTile extends StatelessWidget {
                     onTap: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.warning, color: Colors.redAccent, size: 22),
+                        Icon((status != "0")
+                            ? Icons.check
+                            : upvotes > 20
+                            ? Icons.check
+                            :Icons.warning, color: Colors.redAccent, size: 22),
                         SizedBox(width: 4),
                         Text(
                             (status != "0")
@@ -799,7 +804,7 @@ class ComplaintCard extends StatelessWidget {
                           width: 100,
                           alignment: Alignment.center,
                           child: CircularProgressIndicator(
-                            color: Colors.green,
+                            color: Colors.red,
                             value: loadingProgress.expectedTotalBytes != null
                                 ? loadingProgress.cumulativeBytesLoaded /
                                 (loadingProgress.expectedTotalBytes ?? 1)
@@ -834,7 +839,12 @@ class ComplaintCard extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.warning,
+
+                          Icon((status != "0")
+                              ? Icons.check
+                              : upvotes > 20
+                              ? Icons.check
+                              :Icons.warning,
                               color: Colors.white, size: 20),
                           SizedBox(width: 6),
                           Text(
@@ -971,7 +981,7 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
 
   Future<void> _pickImage() async {
     final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -1046,16 +1056,17 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
     return Scaffold(
       backgroundColor: Colors.greenAccent[100],
       appBar: AppBar(
+
         title: Text(
           'Add Complaint',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.teal[300],
+        backgroundColor: Color(0xff021141),
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/back_1.png"),
+            image: AssetImage("assets/images/back.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -1065,7 +1076,9 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Card(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Colors.red, width: 2), // Red border
+                ),
                 elevation: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -1079,6 +1092,7 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
+                            color: Colors.red, // Red text
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -1087,41 +1101,52 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
                           controller: _titleController,
                           decoration: InputDecoration(
                             labelText: 'Title',
+                            labelStyle: TextStyle(color: Colors.red),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.red, width: 2), // Red border
                             ),
-                            prefixIcon: Icon(Icons.title, color: Colors.black),
+                            filled: true,
+                            fillColor: Colors.white, // White background
+                            prefixIcon: Icon(Icons.title, color: Colors.red),
                           ),
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter a title'
-                              : null,
+                          validator: (value) =>
+                          value == null || value.isEmpty ? 'Please enter a title' : null,
                         ),
                         SizedBox(height: 16),
                         DropdownButtonFormField<String>(
                           value: _selectedType,
                           decoration: InputDecoration(
                             labelText: 'Select Type',
+                            labelStyle: TextStyle(color: Colors.red),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.red, width: 2),
                             ),
+                            filled: true,
+                            fillColor: Colors.white,
                           ),
                           items: ['emergency', 'regular']
                               .map((type) => DropdownMenuItem(
-                                  value: type, child: Text(type.toUpperCase())))
+                              value: type,
+                              child: Text(type.toUpperCase(),
+                                  style: TextStyle(color: Colors.red))))
                               .toList(),
-                          onChanged: (value) =>
-                              setState(() => _selectedType = value),
-                          validator: (value) =>
-                              value == null ? 'Please select a type' : null,
+                          onChanged: (value) => setState(() => _selectedType = value),
+                          validator: (value) => value == null ? 'Please select a type' : null,
                         ),
                         SizedBox(height: 16),
                         DropdownButtonFormField<String>(
                           value: _selectedCategory,
                           decoration: InputDecoration(
                             labelText: 'Select Category',
+                            labelStyle: TextStyle(color: Colors.red),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.red, width: 2),
                             ),
+                            filled: true,
+                            fillColor: Colors.white,
                           ),
                           items: [
                             'Disaster',
@@ -1130,12 +1155,12 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
                             'Crime'
                           ]
                               .map((cat) => DropdownMenuItem(
-                                  value: cat, child: Text(cat)))
+                              value: cat,
+                              child: Text(cat, style: TextStyle(color: Colors.red))))
                               .toList(),
-                          onChanged: (value) =>
-                              setState(() => _selectedCategory = value),
+                          onChanged: (value) => setState(() => _selectedCategory = value),
                           validator: (value) =>
-                              value == null ? 'Please select a category' : null,
+                          value == null ? 'Please select a category' : null,
                         ),
                         SizedBox(height: 16),
                         Row(
@@ -1143,37 +1168,42 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
                             Expanded(
                               child: ElevatedButton.icon(
                                 onPressed: _pickImage,
-                                icon: Icon(
-                                  Icons.image,
-                                  color: Colors.black,
-                                ),
+                                icon: Icon(Icons.image, color: Colors.red),
                                 label: Text(
                                   'Pick Image',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  padding: EdgeInsets.symmetric(vertical: 14),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(color: Colors.red, width: 2),
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(width: 12),
                             _image != null
                                 ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.file(
-                                      _image!,
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.file(
+                                _image!,
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            )
                                 : Container(
-                                    width: 80,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child:
-                                        Icon(Icons.image, color: Colors.grey),
-                                  ),
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.red, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(Icons.image, color: Colors.red),
+                            ),
                           ],
                         ),
                         SizedBox(height: 16),
@@ -1182,24 +1212,27 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
                             Expanded(
                               child: ElevatedButton.icon(
                                 onPressed: _getLocation,
-                                icon: Icon(
-                                  Icons.location_on,
-                                  color: Colors.black,
-                                ),
+                                icon: Icon(Icons.location_on, color: Colors.red),
                                 label: Text(
                                   'Get Location',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  padding: EdgeInsets.symmetric(vertical: 14),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(color: Colors.red, width: 2),
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(width: 12),
                             Expanded(
                               child: Text(
-                                _latitude != 0
-                                    ? '$_latitude, $_longitude'
-                                    : 'No location',
+                                _latitude != 0 ? '$_latitude, $_longitude' : 'No location',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.red),
                               ),
                             ),
                           ],
@@ -1211,13 +1244,14 @@ class _AddComplaintScreenState extends State<AddComplaintScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: Text(
                               'Submit Complaint',
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
+                              style: TextStyle(fontSize: 18, color: Colors.red),
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
+                              side: BorderSide(color: Colors.red, width: 2),
                             ),
                           ),
                         ),
