@@ -1,4 +1,4 @@
-# pokemon_go
+# friendly neighbour hood app
 
 A new Flutter project.
 
